@@ -1,8 +1,6 @@
 package com.agileboot.domain.module.bom.db;
 
-import com.agileboot.domain.system.notice.db.SysNoticeEntity;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -23,4 +21,6 @@ public interface BomService extends IService<BomEntity> {
                                         @Param(Constants.WRAPPER) Wrapper<BomEntity> queryWrapper);
 
     boolean isBomNameDuplicated(Long bomId, String bomName);
+
+    int deleteBomInfo(Long bomId);
 }

@@ -50,4 +50,7 @@ public class BomModel extends BomEntity {
         }
     }
 
+    public void deleteBomInfo() {
+        bomService.deleteBomInfo(getBomId());
+    }
 }
