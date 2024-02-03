@@ -1,7 +1,7 @@
 <!--
  * @Author: Pengwink
  * @Date: 2023-08-12 17:56:29
- * @LastEditTime: 2024-02-02 17:13:12
+ * @LastEditTime: 2024-02-03 10:33:42
  * @LastEditors: Pengwink
  * @Description: 
  * @FilePath: \AgileBoot-Front-End\src\views\inventory\bom\index.vue
@@ -21,7 +21,7 @@ import {
 } from "vue-router";
 import BomSave from "./bom-save.vue";
 import * as $bomApi from "@/api/inventory/bom";
-import { getBomListApi, addBomApi } from "@/api/inventory/bom";
+import { getBomListApi, deleteBomApi } from "@/api/inventory/bom";
 import { message } from "@/utils/message";
 import { Result } from "@/api/base";
 import type { LoadingConfig } from "@pureadmin/table";
@@ -55,9 +55,11 @@ const loadingConfig = reactive<LoadingConfig>({
 // 定义数据
 const pageData: any = reactive({
   permission: {
-    query: ["bom:query:page"],
-    info: ["bom:query:info"],
-    save: ["bom:save"]
+    query: ["inventory:bom:page"],
+    info: ["inventory:bom:info"],
+    save: ["inventory:bom:add"],
+    edit: ["inventory:bom:edit"],
+    remove: ["inventory:bom:remove"]
   },
   searchState: true,
   searchField: [
@@ -347,10 +349,20 @@ const handleInfo = (parameter: LocationQueryRaw | RouteParamsRaw) => {
     });
   }
 };
-const _handlerAdd = () => {
-  console.log("add");
+const _handleAdd = () => {
   bomSaveRef.value!.open();
 };
+const _handleEdit = (data: any) => {
+  bomSaveRef.value!.open(data, "修改Bom表");
+};
+async function handleDelete(row) {
+  await deleteBomApi([row.bomId]).then(() => {
+    message(`您删除了编号为${row.bomId}的这条岗位数据`, {
+      type: "success"
+    });
+    _loadData();
+  });
+}
 onBeforeMount(() => {
   loadBomList();
 });
@@ -385,8 +397,9 @@ onMounted(() => {
         <el-button
           class="button-spacing"
           type="primary"
+          v-show="hasAuth(pageData.permission.save)"
           :loading="pageData.tableParams.loading"
-          @click="_handlerAdd"
+          @click="_handleAdd"
         >
           新增
         </el-button>
@@ -419,14 +432,31 @@ onMounted(() => {
               >详细信息</el-link
             >
             <el-divider
-              v-show="hasAuth(pageData.permission.update)"
+              v-show="hasAuth(pageData.permission.edit)"
               direction="vertical"
             />
-
+            <el-link
+              v-show="hasAuth(pageData.permission.edit)"
+              type="primary"
+              @click="_handleEdit(row)"
+              >编辑</el-link
+            >
             <el-divider
-              v-show="hasAuth(pageData.permission.del)"
+              v-show="hasAuth(pageData.permission.remove)"
               direction="vertical"
             />
+            <el-popconfirm
+              :title="`是否确认删除编号为${row.bomName}的Bom的所有信息`"
+              @confirm="handleDelete(row)"
+            >
+              <template #reference>
+                <el-link
+                  v-show="hasAuth(pageData.permission.remove)"
+                  type="primary"
+                  >删除</el-link
+                >
+              </template>
+            </el-popconfirm>
           </template>
         </pure-table>
         <bom-save ref="bomSaveRef" @ok="_loadData()" />

@@ -65,7 +65,7 @@ public class BomsController extends BaseController{
     @PreAuthorize("@permission.has('inventory:bom:add')")
     @AccessLog(title = "Bom表管理", businessType = BusinessTypeEnum.ADD)
     @PostMapping
-    public ResponseDTO<Void> add(@RequestBody AddBomCommand addCommand) {
+    public ResponseDTO<Void> add(@RequestBody @NotNull AddBomCommand addCommand) {
         bomApplicationService.addBom(addCommand);
         return ResponseDTO.ok();
     }

@@ -1,10 +1,10 @@
 <!--
  * @Author: Pengwink
  * @Date: 2023-09-26 10:32:51
- * @LastEditTime: 2023-10-17 15:32:53
+ * @LastEditTime: 2024-02-03 08:40:48
  * @LastEditors: Pengwink
  * @Description: 
- * @FilePath: \pure-admin-thin-main\src\views\inventory\bom\modules\bom-edit.vue
+ * @FilePath: \AgileBoot-Front-End\src\views\inventory\bom\modules\bom-edit.vue
  * 版权声明
 -->
 <script setup lang="ts">
@@ -14,6 +14,7 @@ import { message } from "@/utils/message";
 import type { FormInstance } from "element-plus";
 import { cloneDeep } from "@pureadmin/utils";
 import * as $bomApi from "@/api/inventory/bom";
+import { addBomApi } from "@/api/inventory/bom";
 import * as $productApi from "@/api/inventory/product";
 const formRef = ref<FormInstance>();
 const pageData: any = reactive({
@@ -113,8 +114,7 @@ const _save = () => {
   form.append("specification", _data.specification);
   form.append("number", _data.number);
   form.append("parentId", _data.parentId);
-  $bomApi
-    .infoSave(form)
+  addBomApi(form)
     .then((res: any) => {
       console.log(res);
       if (res.success) {
