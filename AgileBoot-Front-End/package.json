@@ -20,7 +20,8 @@
     "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
     "lint:pretty": "pretty-quick --staged",
     "lint": "pnpm lint:eslint && pnpm lint:prettier && pnpm lint:stylelint",
-    "prepare": "cd .. && husky install web/.husky",
+    "prepare": "npm run husky:fix",
+    "husky:fix": "cd .. && husky install frontend/.husky",
     "preinstall": "npx only-allow pnpm"
   },
   "browserslist": [
