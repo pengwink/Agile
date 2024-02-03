@@ -1,35 +1,21 @@
 <!--
  * @Author: Pengwink
  * @Date: 2023-09-28 08:29:52
- * @LastEditTime: 2024-01-22 14:57:44
+ * @LastEditTime: 2024-02-03 09:14:49
  * @LastEditors: Pengwink
  * @Description: 
- * @FilePath: \brd-jxc-vue\src\views\inventory\bom\bom-save.vue
+ * @FilePath: \AgileBoot-Front-End\src\views\inventory\bom\bom-save.vue
  * 版权声明
 -->
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import { enableOptions } from "@/constants/constants";
 import * as $bomApi from "@/api/inventory/bom";
+import { addBomApi } from "@/api/inventory/bom";
 import { message } from "@/utils/message";
 import type { FormInstance } from "element-plus";
 import { cloneDeep } from "@pureadmin/utils";
 
-const checkRoleCode = (rule: any, value: any, callback: any) => {
-  if (value === "") {
-    callback(new Error("请输入Bom名称"));
-  } else {
-    const id = pageData.formData.id;
-    $bomApi.checkCode(value, id).then((res: any) => {
-      if (res.success) {
-        if (res.result) {
-          callback(new Error("名称重复"));
-        }
-      }
-    });
-    callback();
-  }
-};
 const formRef = ref<FormInstance>();
 const pageData: any = reactive({
   dialogVisible: false,
@@ -37,18 +23,10 @@ const pageData: any = reactive({
   formLoading: false,
   isUpdate: false,
   formData: {
-    roleCode: "",
-    roleName: "",
-    description: "",
-    enabled: 1
+    bomName: ""
   },
   formRules: {
-    roleCode: [
-      { required: true, message: "请输入角色编码", trigger: "blur" },
-      { validator: checkRoleCode, trigger: "blur" }
-    ],
-    roleName: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
-    enabled: [{ required: true, message: "请选择状态", trigger: "change" }]
+    bomName: [{ required: true, message: "请输入Bom名称", trigger: "blur" }]
   }
 });
 const emits = defineEmits(["ok", "close"]);
@@ -81,8 +59,7 @@ const handleConfirm = () => {
 const _save = () => {
   pageData.formLoading = true;
   const _data = cloneDeep(pageData.formData);
-  $bomApi
-    .save(_data)
+  addBomApi(_data)
     .then((res: any) => {
       if (res.success) {
         _confirm();
