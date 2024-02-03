@@ -210,8 +210,7 @@ public enum ErrorCode implements ErrorCodeInterface {
 
         // ---------------------------------- BOM -----------------------------------------------
 
-        BOM_NAME_IS_NOT_UNIQUE(10501, "BOM名已存在", "Business.BOM_NAME_IS_NOT_UNIQUE"),
-        ;
+        BOM_NAME_IS_NOT_UNIQUE(10501, "BOM名已存在", "Business.BOM_NAME_IS_NOT_UNIQUE");
 
 
         private final int code;

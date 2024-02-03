@@ -55,7 +55,7 @@ public class BomApplicationService {
         for (Long id : deleteCommand.getIds()) {
             BomModel bomModel = bomModelFactory.loadById(id);
             //TODO BOM检查是否可以删除
-//            bomModel.checkCanBeDelete();
+//            bomModel.Delete();
         }
 
         bomService.removeBatchByIds(deleteCommand.getIds());

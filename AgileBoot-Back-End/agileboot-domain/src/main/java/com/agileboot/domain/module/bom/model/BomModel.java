@@ -2,6 +2,7 @@ package com.agileboot.domain.module.bom.model;
 
 import com.agileboot.common.exception.ApiException;
 import com.agileboot.common.exception.error.ErrorCode;
+import com.agileboot.common.exception.error.ErrorCode.Business;
 import com.agileboot.domain.module.bom.command.AddBomCommand;
 import com.agileboot.domain.module.bom.command.UpdateBomCommand;
 import com.agileboot.domain.module.bom.db.BomEntity;
