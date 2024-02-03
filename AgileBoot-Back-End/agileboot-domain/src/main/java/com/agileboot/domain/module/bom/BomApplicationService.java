@@ -54,8 +54,7 @@ public class BomApplicationService {
     public void deleteBom(BulkOperationCommand<Long> deleteCommand) {
         for (Long id : deleteCommand.getIds()) {
             BomModel bomModel = bomModelFactory.loadById(id);
-            //TODO BOM检查是否可以删除
-//            bomModel.Delete();
+            bomModel.deleteBomInfo();
         }
 
         bomService.removeBatchByIds(deleteCommand.getIds());
