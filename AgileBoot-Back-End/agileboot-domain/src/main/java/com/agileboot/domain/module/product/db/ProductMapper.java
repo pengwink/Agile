@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ProductMapper extends BaseMapper<ProductEntity> {
 
-    @Select("SELECT encoding,product_name,coding_area,model,specification\n" +
+    @Select("SELECT encoding,product_name\n" +
             "FROM `inventory_product` t\n" +
             "WHERE 1=1\n" +
             "GROUP BY t.product_name,t.encoding")

@@ -84,7 +84,7 @@ spring:
 
 logging:
     file:
-        path: D:/logs/agileboot-dev
+        path: C:/logs/agileboot-dev
 
 
 springdoc:
@@ -99,7 +99,7 @@ springdoc:
 # 项目相关配置
 agileboot:
     # 文件基路径 示例（ Windows配置D:\agileboot，Linux配置 /home/agileboot）
-    file-base-dir: D:\agileboot
+    file-base-dir: C:\agileboot
     # 前端url请求转发前缀
     api-prefix: /dev-api
     demo-enabled: false

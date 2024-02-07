@@ -1,7 +1,7 @@
 <!--
  * @Author: Pengwink
  * @Date: 2024-01-27 14:24:56
- * @LastEditTime: 2024-01-27 22:19:55
+ * @LastEditTime: 2024-02-06 09:38:25
  * @LastEditors: Pengwink
  * @Description: 
  * @FilePath: \AgileBoot-Front-End\src\views\inventory\product\modules\product-form-modal.vue
@@ -141,7 +141,7 @@ async function handleConfirm() {
       <el-form-item prop="unit" label="单位">
         <el-input v-model="formData.unit" />
       </el-form-item>
-      <el-form-item prop="remark" label="备注" style="margin-bottom: 0">
+      <el-form-item prop="remark" label="备注">
         <el-input type="textarea" v-model="formData.remark" />
       </el-form-item>
     </el-form>

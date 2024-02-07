@@ -21,8 +21,20 @@
     "lint:pretty": "pretty-quick --staged",
     "lint": "pnpm lint:eslint && pnpm lint:prettier && pnpm lint:stylelint",
     "prepare": "npm run husky:fix",
-    "husky:fix": "cd .. && husky install frontend/.husky",
+    "husky:fix": "cd .. && husky install AgileBoot-Front-End/.husky",
     "preinstall": "npx only-allow pnpm"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "prepush-if-changed"
+    }
+  },
+  "lint-staged":{
+    "*.{js,jsx,ts,tsx}":[
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "browserslist": [
     "> 1%",

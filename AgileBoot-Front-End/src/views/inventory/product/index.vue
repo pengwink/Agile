@@ -1,7 +1,7 @@
 <!--
  * @Author: Pengwink
  * @Date: 2023-08-12 17:56:29
- * @LastEditTime: 2024-02-01 17:23:21
+ * @LastEditTime: 2024-02-06 20:53:57
  * @LastEditors: Pengwink
  * @Description: 
  * @FilePath: \AgileBoot-Front-End\src\views\inventory\product\index.vue
@@ -21,7 +21,6 @@ import { addDialog } from "@/components/ReDialog";
 import uploadForm from "./modules/uploadForm.vue";
 import ProductFormModal from "@/views/inventory/product/modules/product-form-modal.vue";
 import { onMounted, reactive, ref, h } from "vue";
-import { update } from "../../../api/inventory/bom";
 import {
   ProductPageResponse,
   queryProductPageApi,
@@ -30,7 +29,7 @@ import {
   deleteProductApi
 } from "@/api/inventory/product";
 defineOptions({
-  name: "product"
+  name: "Product"
 });
 const productEditRef = ref();
 const opType = ref<"add" | "update">("add");
@@ -49,7 +48,7 @@ const pageData: any = reactive({
     export: ["inventory:product:export"],
     import: ["inventory:product:import"],
     download: ["inventory:product:download"],
-    query: ["inventory:product:query"]
+    query: ["inventory:product:list"]
   },
   searchState: true,
   searchField: [
@@ -169,6 +168,7 @@ const pageData: any = reactive({
       {
         label: "操作",
         fixed: "right",
+        width: 200,
         slot: "operation"
       }
     ],
@@ -246,18 +246,6 @@ const _select = () => {
       pageData.dataSource.productOptions = res.data.product;
     }
   });
-};
-/**
- * @TODO:
- * @description 打开编辑页面或者查看详情
- * @param row
- */
-const handleAdd = (row?: any) => {
-  const data: any = {};
-  if (row) {
-    data.parentId = row.id;
-  }
-  productEditRef.value!.open(data, pageData.dataSource, "add");
 };
 const exportExcel = () => {
   const query = getQueryParams();
