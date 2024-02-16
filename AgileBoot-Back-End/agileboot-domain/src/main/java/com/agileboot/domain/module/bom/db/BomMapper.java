@@ -29,7 +29,8 @@ public interface BomMapper extends BaseMapper<BomEntity> {
     @Select("SELECT b.* "
         + "FROM inventory_bom b "
         + "LEFT JOIN sys_user u ON b.creator_id = u.user_id"
-        + " ${ew.customSqlSegment}")
+        + " ${ew.customSqlSegment}"
+        + "WHERE b.deleted!=1")
     Page<BomEntity> getBomList(Page<BomEntity> page,
         @Param(Constants.WRAPPER) Wrapper<BomEntity> queryWrapper);
 
