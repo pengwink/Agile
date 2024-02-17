@@ -1,7 +1,7 @@
 <!--
  * @Author: Pengwink
  * @Date: 2023-08-12 17:56:29
- * @LastEditTime: 2024-02-03 10:33:42
+ * @LastEditTime: 2024-02-12 10:48:23
  * @LastEditors: Pengwink
  * @Description: 
  * @FilePath: \AgileBoot-Front-End\src\views\inventory\bom\index.vue
@@ -10,20 +10,16 @@
 <script setup lang="ts">
 import { PureTableBar } from "@/components/RePureTableBar";
 import FormSearch from "@/components/opts/form-search.vue";
-import TableButtons from "@/components/opts/btns2.vue";
 import { hasAuth } from "@/router/utils";
-import { onBeforeMount, onMounted, reactive, ref, toRaw } from "vue";
+import { onBeforeMount, onMounted, reactive, ref } from "vue";
 import {
-  useRoute,
   useRouter,
   type LocationQueryRaw,
   type RouteParamsRaw
 } from "vue-router";
 import BomSave from "./bom-save.vue";
-import * as $bomApi from "@/api/inventory/bom";
 import { getBomListApi, deleteBomApi } from "@/api/inventory/bom";
 import { message } from "@/utils/message";
-import { Result } from "@/api/base";
 import type { LoadingConfig } from "@pureadmin/table";
 import { isString } from "@pureadmin/utils";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
@@ -55,7 +51,7 @@ const loadingConfig = reactive<LoadingConfig>({
 // 定义数据
 const pageData: any = reactive({
   permission: {
-    query: ["inventory:bom:page"],
+    query: ["inventory:bom:list"],
     info: ["inventory:bom:info"],
     save: ["inventory:bom:add"],
     edit: ["inventory:bom:edit"],
@@ -245,20 +241,6 @@ const _loadData = (page?: number) => {
       pageLoading.value = false;
     });
 };
-// $bomApi
-//   .queryPage<any>(query)
-//   .then(res => {
-//     if (res.success) {
-//       console.log(res.data.records);
-//       pageData.tableParams.list = res.data.records;
-//       pageData.tableParams.pagination.total = Number(res.data.total);
-//     } else {
-//       message(res.message);
-//       pageData.tableParams.list = [];
-//       pageData.tableParams.pagination.total = 0;
-//     }
-//   })
-// };
 const loadBomList = () => {
   // $bomApi.queryList({ isEnable: 1 }).then(res => {
   //   if (res.success) {
@@ -282,8 +264,6 @@ const exportExcel = () => {
   //   }
   // });
 };
-const uploadSuccess = (item: any) => {};
-const handleExceed = (item: any) => {};
 const importExcel = (item: any) => {
   const form = new FormData();
   form.append("file", item.file);
@@ -315,7 +295,7 @@ const handleInfo = (parameter: LocationQueryRaw | RouteParamsRaw) => {
   console.log(parameter);
   if (parameter.bomInfoList == null || parameter.bomInfoList == "") {
     router.push({
-      name: "BomInfo"
+      name: "Info"
     });
   } else {
     Object.keys(parameter).forEach(param => {
@@ -323,12 +303,10 @@ const handleInfo = (parameter: LocationQueryRaw | RouteParamsRaw) => {
         parameter[param] = parameter[param].toString();
       }
     });
-    console.log(parameter.id);
-
     // 保存信息到标签页
     useMultiTagsStoreHook().handleTags("push", {
-      path: `/inventory/bom/modules/bom-info`,
-      name: "BomInfo",
+      path: `/inventory/bom/modules/info`,
+      name: "Info",
       query: {
         id: parameter.id
       },
@@ -342,7 +320,7 @@ const handleInfo = (parameter: LocationQueryRaw | RouteParamsRaw) => {
 
     // 路由跳转
     router.push({
-      name: "BomInfo",
+      name: "Info",
       query: {
         id: parameter.id
       }

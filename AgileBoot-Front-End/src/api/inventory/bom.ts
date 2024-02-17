@@ -1,7 +1,7 @@
 /*
  * @Author: Pengwink
  * @Date: 2023-09-14 11:18:19
- * @LastEditTime: 2024-02-03 10:29:24
+ * @LastEditTime: 2024-02-10 10:52:50
  * @LastEditors: Pengwink
  * @Description:
  * @FilePath: \AgileBoot-Front-End\src\api\inventory\bom.ts
@@ -39,13 +39,29 @@ export interface AddBomCommand {
   bomName: string;
 }
 
+export interface UpdateBomCommand extends AddBomCommand {
+  bomId: number;
+}
+
 export const addBomApi = (data: AddBomCommand) => {
   return http.request<ResponseData<void>>("post", "/inventory/boms", {
     data
   });
 };
+
+/** 修改系统通知 */
+export const updateBomApi = (data: UpdateBomCommand) => {
+  return http.request<ResponseData<void>>(
+    "put",
+    `/inventory/boms/${data.bomId}`,
+    {
+      data
+    }
+  );
+};
+
 export const deleteBomApi = (data: Array<number>) => {
-  return http.request<ResponseData<void>>("delete", `/inventory/boms/`, {
+  return http.request<ResponseData<void>>("delete", `/inventory/boms`, {
     params: {
       ids: data.toString()
     }
