@@ -1,10 +1,10 @@
 <!--
  * @Author: Pengwink
  * @Date: 2023-08-12 17:56:29
- * @LastEditTime: 2024-01-30 15:11:44
+ * @LastEditTime: 2024-02-12 10:47:54
  * @LastEditors: Pengwink
  * @Description: 
- * @FilePath: \brd-jxc-vue\src\views\inventory\bom\modules\bom-info.vue
+ * @FilePath: \AgileBoot-Front-End\src\views\inventory\bom\modules\info.vue
  * 版权声明
 -->
 <script setup lang="ts">
@@ -21,7 +21,7 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import Check from "@iconify-icons/ep/check";
 import { useRouter, useRoute } from "vue-router";
 defineOptions({
-  name: "BomInfo"
+  name: "Info"
 });
 // 编辑值（可多个）
 const inputValMap = ref({});

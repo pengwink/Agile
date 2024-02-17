@@ -1,7 +1,7 @@
 <!--
  * @Author: Pengwink
  * @Date: 2023-09-28 08:29:52
- * @LastEditTime: 2024-02-03 09:14:49
+ * @LastEditTime: 2024-02-10 11:22:37
  * @LastEditors: Pengwink
  * @Description: 
  * @FilePath: \AgileBoot-Front-End\src\views\inventory\bom\bom-save.vue
@@ -9,9 +9,7 @@
 -->
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { enableOptions } from "@/constants/constants";
-import * as $bomApi from "@/api/inventory/bom";
-import { addBomApi } from "@/api/inventory/bom";
+import { addBomApi, updateBomApi } from "@/api/inventory/bom";
 import { message } from "@/utils/message";
 import type { FormInstance } from "element-plus";
 import { cloneDeep } from "@pureadmin/utils";
@@ -35,8 +33,9 @@ const open = (data?: any, title?: string) => {
     bomName: ""
   };
   pageData.title = title || "新增Bom";
-  pageData.isUpdate = !!pageData.formData.id;
+  pageData.isUpdate = !!pageData.formData.bomId;
   pageData.dialogVisible = true;
+  console.log(pageData.formData);
 };
 const handleClose = () => {
   pageData.dialogVisible = false;
@@ -45,8 +44,8 @@ const handleClose = () => {
 const handleConfirm = () => {
   formRef.value!.validate((isValid: boolean) => {
     if (isValid) {
-      const { id } = pageData.formData;
-      if (id) {
+      const { bomId } = pageData.formData;
+      if (bomId) {
         _update();
       } else {
         _save();
@@ -61,10 +60,11 @@ const _save = () => {
   const _data = cloneDeep(pageData.formData);
   addBomApi(_data)
     .then((res: any) => {
-      if (res.success) {
+      if (res.code == 0) {
+        message(res.msg, { type: "success" });
         _confirm();
       } else {
-        message(res.message, { type: "warning" });
+        message(res.msg, { type: "warning" });
       }
     })
     .finally(() => {
@@ -74,13 +74,13 @@ const _save = () => {
 const _update = () => {
   pageData.formLoading = true;
   const _data = cloneDeep(pageData.formData);
-  $bomApi
-    .update(pageData.formData.id, _data)
+  updateBomApi(_data)
     .then((res: any) => {
-      if (res.success) {
+      if (res.code == 0) {
+        message(res.msg, { type: "success" });
         _confirm();
       } else {
-        message(res.message, { type: "warning" });
+        message(res.msg, { type: "warning" });
       }
     })
     .finally(() => {
